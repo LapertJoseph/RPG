@@ -128,7 +128,7 @@ public class Character extends Hero {
         System.out.println("Entrez un prenom");
         String prenom = sc.nextLine();
 
-        Item potionDefense = new Item("Potion de défense", 1, 20);
+        Item potionDefense = new Item("Potion de défense", 3, 20);
 
         List<Item> items = new ArrayList<>();
         items.add(potionDefense);

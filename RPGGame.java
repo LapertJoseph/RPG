@@ -428,16 +428,17 @@ public class RPGGame {
           choice = displayInput(sc.nextInt());
           // sc.nextInt();
         } else if (choice == 2) {
+          choice = 0;
           a.inventory.displayInventory();
           System.out.println("Quel objet voulez-vous utilisez ?");
-          choice = sc.nextInt();
-          a.useDefPotion();
-          System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
-          System.out.println(
-              game.monstersCorridor.get(0).getName() + " possède " + game.monstersCorridor.get(0).getHp() + "PV.");
-          displayInput(choice);
-          choice = displayInput(sc.nextInt());
-          // sc.nextInt();
+          int choicePotion = 0;
+          choicePotion = sc.nextInt();
+          if (choicePotion == 2) {
+            a.useDefPotion();
+            System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
+            displayInput(choice);
+            choice = displayInput(sc.nextInt());
+          }
         } else if (choice == 3) {
           System.out.println(
               "Vous choisissez de fuir le combat, vous subissez un coup de " + game.monstersCorridor.get(0).getName()
@@ -491,12 +492,17 @@ public class RPGGame {
     } else if (choice == 2) {
       System.out.println("Vous semblez avoir fait le tour du Corridor");
     } else if (choice == 3) {
+      choice = 0;
       a.inventory.displayInventory();
       System.out.println("Quel objet voulez-vous utilisez ?");
-      System.out.println("\n");
-      choice = sc.nextInt();
-      a.useDefPotion();
-      System.out.println("Vous avez " + a.getHp() + " PV.");
+      int choicePotion = 0;
+      choicePotion = sc.nextInt();
+      if (choicePotion == 2) {
+        a.useDefPotion();
+        System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
+        displayInput(choice);
+        choice = displayInput(sc.nextInt());
+      }
     } else {
       System.out.println("???? : ????");
       int randomNumber = rand.nextInt(2);
@@ -592,16 +598,17 @@ public class RPGGame {
             choice = displayInput(sc.nextInt());
             // sc.nextInt();
           } else if (choice == 2) {
+            choice = 0;
             a.inventory.displayInventory();
             System.out.println("Quel objet voulez-vous utilisez ?");
-            choice = sc.nextInt();
-            a.useDefPotion();
-            System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
-            System.out.println(
-                game.monstersArmory.get(0).getName() + " possède " + game.monstersArmory.get(0).getHp() + "PV.");
-            displayInput(choice);
-            choice = displayInput(sc.nextInt());
-            // sc.nextInt();
+            int choicePotion = 0;
+            choicePotion = sc.nextInt();
+            if (choicePotion == 2) {
+              a.useDefPotion();
+              System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
+              displayInput(choice);
+              choice = displayInput(sc.nextInt());
+            }
           } else if (choice == 3) {
             System.out.println(
                 "Vous choisissez de fuir le combat, vous subissez un coup de " + game.monstersArmory.get(0).getName()
@@ -640,8 +647,26 @@ public class RPGGame {
     }
     // FIN SALLE 3
     // -----------------------------------------------------------------------------------------------------------------------------------
-    // DEBUT SALLE Boss
+    // DEBUT SALLE BOSS
     System.out.println("Vous sentez que vous êtes à bout de force et que la prochaine rencontre sera décisive.");
+    System.out
+        .println("Le sol est jonché de guerriers et de monstres morts au combat... Mais que s'est-il passé ici ?!");
+    System.out.println("L'air est saturé par une odeur étrange");
+    System.out
+        .println("Vous remarqué un trone posé au bout de la salle ou repose un Coffre entouré d'une montagne d'or");
+    choice = 0;
+    System.out.println("Que faite-vous ? ");
+    System.out.println("1 - Vous regardez autour de vous ? ");
+    System.out.println("2 - Vous vous précipitez sur le coffre  ? ");
+    choice = sc.nextInt();
+
+    if (choice == 1) {
+      System.out.println("Vous remarquez que les murs sont cabossés et que le sol est noirci");
+      System.out.println("Vous entendez un bruit sourd derrière vous.");
+      System.out.println("Vous vous retournez et vous voyez " + game.monstersBoss.get(0).getName());
+      System.out.println("Vous entrez en combat");
+    }
+
     sc.close();
     return;
   }
