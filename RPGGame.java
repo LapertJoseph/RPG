@@ -488,7 +488,7 @@ public class RPGGame {
         .get(1);
     a.addItemDefenseToInventory(newItemToAdd, a.inventory.getItems());
     a.inventory.displayInventory();
-
+    System.out.println("--------------------------------------------------------------------");
     System.out.println("Vous êtes à mi-parcours ! Courage.");
     System.out.println("\n");
     System.out.println("Que faites vous ?");
@@ -518,6 +518,7 @@ public class RPGGame {
       System.out.println("???? : ????");
       int randomNumber = rand.nextInt(2);
       if (randomNumber < 1) { // Bonus
+        System.out.println("Vous avez " + a.getHp() + "PV.");
         if (a.getHp() <= 100) {
           int newHP = a.getHp() + 30;
           if (newHP > 100) {
@@ -528,6 +529,7 @@ public class RPGGame {
           System.out.println("Vous avez " + a.getHp() + "PV.");
         } else { // Malus
           System.out.println("??? : ???");
+          System.out.println("Vous avez " + a.getHp() + "PV.");
           int newHP = a.getHp() - 30;
           if (newHP <= 0) {
             a.setHp(0);
