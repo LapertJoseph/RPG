@@ -39,15 +39,7 @@ public class Item {
         return "  ";
     }
 
-    public int getHealingAmount() {
-        return 20;
-    }
-
     public int getDefAmount() {
         return 30;
-    }
-
-    public int getStatAmount() {
-        return 10;
     }
 }

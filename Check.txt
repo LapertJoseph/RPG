@@ -1,11 +1,11 @@
 
 GUERRIER
 1 - Si je fais full 1 sans prendre 0 potions avec le war j'arrive à la 4eme salle DONE
-2 - Lorsque j'utilise une potion de soin et que j'attaque, j'arrive bien a tuer le monstre sauf que je passe directement au combat suivant !!!! ACTION
+2 - 
 3 - Quand je prend une potion de défense, j'arrive à la 4eme Salle DONE
-4 - Lorsque j'utilise une potion fortifiante et que j'attaque, j'arrive bien a tuer le monstre sauf que je passe directement au combat suivant !!!! ACTION
+4 - 
 
 PRETRE
-1 - Si je fais full 1 sans prendre 0 potions avec le war j'arrive à la 3eme salle et je meurt
+1 - Si je fais full 1 sans prendre 0 potions avec le war j'arrive à la 3eme salle et je meurt.
 
 MAGE

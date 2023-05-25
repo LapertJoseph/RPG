@@ -267,38 +267,10 @@ public class RPGGame {
           System.out.println("CHOICEPOTION  :" + choicePotion);
           System.out.println("\n");
           choicePotion = sc.nextInt();
-          if (choicePotion == 1) {
-            a.useHealPotion();
-            System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
-            System.out.println(
-                game.monstersEntrance.get(0).getName() + " possède " + game.monstersEntrance.get(0).getHp() + "PV.");
-            System.out.println("\n");
-            System.out.println("CHOICEPOTION  :" + choicePotion);
-            System.out.println("\n");
-            System.out.println("\n");
-            System.out.println("CHOICE  :" + choice);
-            System.out.println("\n");
-            displayInput(choice);
-            choice = displayInput(sc.nextInt());
-            System.out.println("\n");
-            System.out.println("CHOICE  :" + choice);
-            System.out.println("\n");
-          } else if (choicePotion == 2) {
+          if (choicePotion == 2) {
             a.useDefPotion();
             System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
             displayInput(choice);
-            choice = displayInput(sc.nextInt());
-          } else if (choicePotion == 3) {
-            a.useStatPotion();
-            System.out.println(a.getName() + " possède désormais : ");
-            System.out.println("\n");
-            System.out.println(a.getHp() + " PV");
-            System.out.println(a.getAttack() + " Attaque");
-            System.out.println(a.getDefense() + " Défense");
-            System.out.println(a.getEnergy() + " Energie");
-            System.out.println("\n");
-            displayInput(choice);
-            choice = 0;
             choice = displayInput(sc.nextInt());
           }
 
@@ -335,7 +307,7 @@ public class RPGGame {
       // AddItem
       System.out.println("--------------------------------------------------------------------");
       Item itemToAdd = game.items.get(0);
-      a.addItemHealToInventory(itemToAdd, a.inventory.getItems());
+      a.addItemDefenseToInventory(itemToAdd, a.inventory.getItems());
       a.inventory.displayInventory();
       System.out.println("\n");
       // FIN SALLE 1
@@ -360,13 +332,6 @@ public class RPGGame {
         System.out.println("Vous lisez votre carte et vous voyez : "); // Affichage de texte
         System.out.println("---------------------------------------");
         game.getSalles(game.rooms); // Affichage de la map via la function getSalles
-      } else {
-        a.inventory.displayInventory();
-        System.out.println("Quel objet voulez-vous utilisez ?");
-        System.out.println("\n");
-        choice = sc.nextInt();
-        a.useHealPotion();
-        System.out.println("Vous avez " + a.getHp() + " PV.");
       }
       System.out.println("-------------------------------------------------------");
 
@@ -483,7 +448,7 @@ public class RPGGame {
           a.inventory.displayInventory();
           System.out.println("Quel objet voulez-vous utilisez ?");
           choice = sc.nextInt();
-          a.useHealPotion();
+          a.useDefPotion();
           System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
           System.out.println(
               game.monstersCorridor.get(0).getName() + " possède " + game.monstersCorridor.get(0).getHp() + "PV.");
@@ -547,7 +512,7 @@ public class RPGGame {
       System.out.println("Quel objet voulez-vous utilisez ?");
       System.out.println("\n");
       choice = sc.nextInt();
-      a.useHealPotion();
+      a.useDefPotion();
       System.out.println("Vous avez " + a.getHp() + " PV.");
     } else {
       System.out.println("???? : ????");
@@ -645,7 +610,7 @@ public class RPGGame {
             a.inventory.displayInventory();
             System.out.println("Quel objet voulez-vous utilisez ?");
             choice = sc.nextInt();
-            a.useHealPotion();
+            a.useDefPotion();
             System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
             System.out.println(
                 game.monstersArmory.get(0).getName() + " possède " + game.monstersArmory.get(0).getHp() + "PV.");

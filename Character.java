@@ -49,12 +49,15 @@ public class Character extends Hero {
     public int setHpToZero(int hp) {
         return this.hp = 0;
     }
+
     public int getAttack() {
         return attack;
     }
+
     public int getEnergy() {
         return energy;
     }
+
     public String getName() {
         return nom;
     }
@@ -82,24 +85,6 @@ public class Character extends Hero {
         System.out.println("*Le monstre subit " + damage + " point de degats.");
     }
 
-    /**
-     * 
-     * @param item
-     * @param inventory
-     * @return List<Item> item
-     */
-    public void addItemHealToInventory(Item item, List<Item> inventory) {
-        if (item.getNomLoot().equals("Potion de soin")) {
-            for (Item existingItem : inventory) {
-                if (existingItem.getNomLoot().equals("Potion de soin")) {
-                    existingItem.setNombreLoot(existingItem.getNombreLoot() + item.getNombreLoot());
-                    System.out.println("Potions de soin ajoutées à l'inventaire.");
-                    return;
-                }
-            }
-        }
-    }
-
     public void addItemDefenseToInventory(Item item, List<Item> inventory) {
         if (item.getNomLoot().equals("Potion de défense")) {
             for (Item existingItem : inventory) {
@@ -111,40 +96,8 @@ public class Character extends Hero {
         }
     }
 
-    public void addItemStatToInventory(Item item, List<Item> inventory) {
-        if (item.getNomLoot().equals("Potion fortifiante")) {
-            for (Item existingItem : inventory) {
-                System.out.println("existingItem: " + existingItem);
-                if (existingItem.getNomLoot().equals("Potion fortifiante")) {
-                    existingItem.setNombreLoot(existingItem.getNombreLoot() + item.getNombreLoot());
-                    System.out.println("Potion fortifiantes ajoutées à l'inventaire.");
-                }
-            }
-        }
-    }
-
     public void removeItemInventory(Item item) {
         inventory.removeItem(item);
-    }
-
-    public void useHealPotion() {
-        for (Item item : inventory.getItems()) {
-            if (item.getNomLoot().equals("Potion de soin")) {
-                int heal = item.getHealingAmount();
-                hp += heal;
-                System.out.println(
-                        "Vous avez utilisé une potion de soin et récupéré " + heal + " points de vie.");
-                // reduce the potion to 1
-                item.setNombreLoot(item.getNombreLoot() - 1);
-                // if quantity potion == 0 then remove potion from inventory
-                if (item.getNombreLoot() == 0) {
-                    inventory.removeItem(item);
-                    System.out.println("La potion de soin est épuisée et a été retirée de votre inventaire.");
-                }
-                return;
-
-            }
-        }
     }
 
     public void useDefPotion() {
@@ -165,27 +118,6 @@ public class Character extends Hero {
         }
     }
 
-    public void useStatPotion() {
-        for (Item item : inventory.getItems()) {
-            if (item.getNomLoot().equals("Potion fortifiante")) {
-                int stat = item.getStatAmount();
-                hp += stat;
-                attack += stat;
-                defense += stat;
-                energy += stat;
-                System.out.println(
-                        "Vous avez utilisé une potion fortifiante et augmenter vos statistiques de " + stat
-                                + " points.");
-                item.setNombreLoot(item.getNombreLoot() - 1);
-                if (item.getNombreLoot() == 0) {
-                    inventory.removeItem(item);
-                    System.out.println("Les potions fortifiantes sont épuisée et sont retirée de votre inventaire.");
-                }
-                return;
-            }
-        }
-    }
-
     // Create Character
     public static Character createCharactertoString() {
 
@@ -196,14 +128,10 @@ public class Character extends Hero {
         System.out.println("Entrez un prenom");
         String prenom = sc.nextLine();
 
-        Item potionHeal = new Item("Potion de soin", 2, 20);
         Item potionDefense = new Item("Potion de défense", 1, 20);
-        Item potionStat = new Item("Potion fortifiante", 1, 20);
 
         List<Item> items = new ArrayList<>();
-        items.add(potionHeal);
         items.add(potionDefense);
-        items.add(potionStat);
 
         String classe = null;
         int hp = 0;
