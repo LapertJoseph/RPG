@@ -292,6 +292,7 @@ public class RPGGame {
       Item itemToAdd = game.items.get(0);
       a.addItemDefenseToInventory(itemToAdd, a.inventory.getItems());
       a.inventory.displayInventory();
+      a.setDefense(a.getDefense());
       System.out.println("\n");
       // FIN SALLE 1
       // --------------------------------------------------------------------------------------------------------------------------------
@@ -467,11 +468,12 @@ public class RPGGame {
         System.out.println("-----------------------------------------------------------------------------------------");
       }
     }
-    System.out.println("Vous cherchez la lumière rouge et vous apercevez un coffre");
-    Item newItemToAdd = game.items
-        .get(1);
+    System.out.println("Vous cherchez la lumière rouge et vous apercevez un coffre.");
+    System.out.println("En l'ouvrant, vous vous approprié une " + game.items.get(1));
+    Item newItemToAdd = game.items.get(1);
     a.addItemDefenseToInventory(newItemToAdd, a.inventory.getItems());
     a.inventory.displayInventory();
+    a.setDefense(a.getDefense());
     System.out.println("--------------------------------------------------------------------");
     System.out.println("Vous êtes à mi-parcours ! Courage.");
     System.out.println("\n");
@@ -504,10 +506,9 @@ public class RPGGame {
         choice = displayInput(sc.nextInt());
       }
     } else {
-      System.out.println("???? : ????");
-      int randomNumber = rand.nextInt(2);
+      int randomNumber = rand.nextInt(1);
       if (randomNumber < 1) { // Bonus
-        System.out.println("Vous avez " + a.getHp() + "PV.");
+        System.out.println("Vous regagnez 30 PV.");
         if (a.getHp() <= 100) {
           int newHP = a.getHp() + 30;
           if (newHP > 100) {
@@ -518,8 +519,10 @@ public class RPGGame {
           System.out.println("Vous avez " + a.getHp() + "PV.");
         } else { // Malus
           System.out.println("??? : ???");
-          System.out.println("Vous avez " + a.getHp() + "PV.");
+          System.out.println("Le sort s'acharne sur vous ...");
+          System.out.println("Vous recevez un morceau de la roche sur vous, vous perdez 30 PV.");
           int newHP = a.getHp() - 30;
+          System.out.println("Il vous reste " + a.getHp() + "PV.");
           if (newHP <= 0) {
             a.setHp(0);
             game.gameOver = true;
@@ -547,7 +550,6 @@ public class RPGGame {
     // -----------------------------------------------------------------------------------------------------------------------------------
     // DEBUT SALLE 3
 
-    // TODO : Salle 3 Armurerie
     System.out.println("Vous penetrez dans l'armurerie et tout de suite, vous etes surpris de voir "
         + game.monstersArmory.get(0).getName() + " endormi, la main sur le coffre.");
 
@@ -643,6 +645,7 @@ public class RPGGame {
         }
         System.out.println("Il vous reste " + a.getHp() + "PV.");
         System.out.println("-----------------------------------------------------------------------------------------");
+        a.setDefense(a.getDefense());
       }
     }
     // FIN SALLE 3
@@ -657,16 +660,21 @@ public class RPGGame {
     choice = 0;
     System.out.println("Que faite-vous ? ");
     System.out.println("1 - Vous regardez autour de vous ? ");
-    System.out.println("2 - Vous vous précipitez sur le coffre  ? ");
     choice = sc.nextInt();
 
     if (choice == 1) {
       System.out.println("Vous remarquez que les murs sont cabossés et que le sol est noirci");
-      System.out.println("Vous entendez un bruit sourd derrière vous.");
+      System.out.println(
+          "Lorsque vous vous appréter à vous avancer vers le coffre vous entendez un bruit sourd derrière vous...");
       System.out.println("Vous vous retournez et vous voyez " + game.monstersBoss.get(0).getName());
+      System.out.println("Vous remarquez qu'elle possède une gueule béante avec des crocs empoisonnées.");
       System.out.println("Vous entrez en combat");
+    } else {
+      while (choice != 1) {
+        System.out.println("Veuillez choisir une action valide");
+        choice = displayInput(sc.nextInt());
+      }
     }
-
     sc.close();
     return;
   }

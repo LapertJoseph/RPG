@@ -21,8 +21,8 @@ public class Character extends Hero {
         this.attack = attack;
         this.defense = defense;
         this.energy = energy;
-        this.skill = skill;
-        this.descriptionSpell = descriptionSpell;
+        Character.skill = skill;
+        Character.descriptionSpell = descriptionSpell;
         this.inventory = inventory;
     };
 
@@ -44,6 +44,10 @@ public class Character extends Hero {
 
     public int getDefense() {
         return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
     public int setHpToZero(int hp) {
