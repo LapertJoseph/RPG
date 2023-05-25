@@ -83,7 +83,7 @@ public class Character extends Hero {
         int damage = attack - m.defense;
         if (damage <= 0) {
             m.hp = m.hp;
-            System.out.println("Le monstre esquive le coup du héros.");
+            System.out.println("Le " + m + "esquive le coup du héros.");
         }
         m.hp = m.hp - damage;
         System.out.println("*Le monstre subit " + damage + " point de degats.");
@@ -122,6 +122,10 @@ public class Character extends Hero {
         }
     }
 
+    public void setDefenseBase() {
+        this.defense = 30;
+    };
+
     // Create Character
     public static Character createCharactertoString() {
 
@@ -158,7 +162,7 @@ public class Character extends Hero {
                 hp = 100;
                 attack = 50;
                 defense = 30;
-                energy = 100;
+                energy = 50;
                 skill = "Frappe mortelle";
                 descriptionSpell = "Le guerrier esquive l'attaque de l'ennemi et inflige une attaque devastatrice.";
             } else if (choice == 2) {
@@ -166,7 +170,7 @@ public class Character extends Hero {
                 hp = 100;
                 attack = 35;
                 defense = 20;
-                energy = 150;
+                energy = 70;
                 skill = "Soin rapide";
                 descriptionSpell = "Le Pretre entonne de sa voix, une douce melodie qui lui permet de se revitaliser.";
             } else if (choice == 3) {
@@ -174,7 +178,7 @@ public class Character extends Hero {
                 hp = 100;
                 attack = 35;
                 defense = 10;
-                energy = 300;
+                energy = 100;
                 skill = "Sort ultime";
                 descriptionSpell = "Un enorme rocher de feu jaillit des mains du mage et explose au visage de l'ennemi.";
             } else {
