@@ -29,14 +29,11 @@ public class RPGGame {
     monstersBoss.add(new Monster("Ultor, l'assemblage détraqué", 110, 20, 50, 100, "Poing Fulgurant"));
     monstersBoss.add(new Monster("Calamitas, le sorcier fou", 70, 50, 30, 10, "Supernova"));
 
-    rooms = new ArrayList<>(); // rajouter deux monstres dans les salles
+    rooms = new ArrayList<>();
     rooms.add(new Room("Entree", 1, monstersEntrance));
     rooms.add(new Room("Corridor", 1, monstersCorridor));
     rooms.add(new Room("Armurerie", 1, monstersArmory));
     rooms.add(new Room("Trone", 1, monstersBoss));
-
-    // list salle avec les monstre associé
-    // une salle = un monstre
 
     rooms.get(0);
     rooms.get(1);
@@ -247,9 +244,6 @@ public class RPGGame {
           System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
           System.out.println(
               game.monstersEntrance.get(0).getName() + " possède " + game.monstersEntrance.get(0).getHp() + "PV.");
-          System.out.println("\n");
-          System.out.println("CHOICE sortie de 1 :" + choice);
-          System.out.println("\n");
           displayInput(choice);
           choice = displayInput(sc.nextInt());
 
@@ -257,15 +251,9 @@ public class RPGGame {
 
         } else if (choice == 2) {
           choice = 0;
-          System.out.println("\n");
-          System.out.println("CHOICE  :" + choice);
-          System.out.println("\n");
           a.inventory.displayInventory();
           System.out.println("Quel objet voulez-vous utilisez ?");
           int choicePotion = 0;
-          System.out.println("\n");
-          System.out.println("CHOICEPOTION  :" + choicePotion);
-          System.out.println("\n");
           choicePotion = sc.nextInt();
           if (choicePotion == 2) {
             a.useDefPotion();
@@ -273,7 +261,6 @@ public class RPGGame {
             displayInput(choice);
             choice = displayInput(sc.nextInt());
           }
-
         } else if (choice == 3) {
           System.out.println(
               "Vous choisissez de fuir le combat, vous subissez un coup de " + game.monstersEntrance.get(0).getName()
@@ -281,17 +268,13 @@ public class RPGGame {
           a.setHp(a.getHp() - 40);
           System.out.println("Il vous reste " + a.getHp() + " PV.");
           escape = true;
-          System.out.println("\n");
-          System.out.println("CHOICE sortie de 3 :" + choice);
-          System.out.println("\n");
-
-        } // Crochet de la fuite choice == 3
+        } // Crochet de la fuite
       } // Crochet du while
     } while (choice != 3 && game.gameOver != true && game.monstersEntrance.get(0).getHp() > 0);
 
     System.out.println("-----------------------------------------------------------------------------------------");
     System.out.println(
-        "Une petite lumière gravite autour de vous et soudain elle vous traverse, vous regagnez 30 points de vie. BLA BLA BLA");
+        "Une petite lumière gravite autour de vous et soudain elle vous traverse, vous regagnez 30 points de vie.");
     choice = 0; // choice verifié bien égale à 0
     // verif isAlive
     if (a.getHp() <= 100) {
@@ -401,10 +384,10 @@ public class RPGGame {
           break;
       }
     }
-    // TODO : Salle 2 (Done) Corridor
+    // Salle 2 Corridor
 
     System.out.println("Vous relevez la tête et vous apercevez un " + game.monstersCorridor.get(0).getName()
-        + " qui vous barre la sortie du corridor. BLE BLE BLE");
+        + " qui vous barre la sortie du corridor.");
     choice = 0;
     // DEBUT COMBAT
     do {
@@ -630,8 +613,13 @@ public class RPGGame {
           }
         }
       } while (choice != 3 && game.gameOver != true && game.monstersArmory.get(0).getHp() > 0);
-    } else {
-      // coder la fonction pour le choice 2
+    } else if (choice == 2) {
+      System.out
+          .println(
+              "Vous commencez à vous avancer la main sur le coffre, lorsque les ronflments du monstre se coupent.");
+      System.out.println("Vous vous tournez vers lui et vous lui assénez un coup fatal");
+      game.monstersArmory.get(0).setHpToZero(game.monstersArmory.get(0).hp);
+      System.out.println("Félicitation, vous avez vaincu " + game.monstersArmory.get(0).getName() + "!");
     }
     if (a.getHp() == 0) { // GAME OVER
       return;
@@ -653,6 +641,7 @@ public class RPGGame {
     // FIN SALLE 3
     // -----------------------------------------------------------------------------------------------------------------------------------
     // DEBUT SALLE Boss
+    System.out.println("Vous sentez que vous êtes à bout de force et que la prochaine rencontre sera décisive.");
     sc.close();
     return;
   }
