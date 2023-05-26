@@ -21,8 +21,8 @@ public class Character extends Hero {
         this.attack = attack;
         this.defense = defense;
         this.energy = energy;
-        this.skill = skill;
-        this.descriptionSpell = descriptionSpell;
+        Character.skill = skill;
+        Character.descriptionSpell = descriptionSpell;
         this.inventory = inventory;
     };
 
@@ -46,6 +46,10 @@ public class Character extends Hero {
         return defense;
     }
 
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
     public int setHpToZero(int hp) {
         return this.hp = 0;
     }
@@ -56,6 +60,10 @@ public class Character extends Hero {
 
     public int getEnergy() {
         return energy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
     }
 
     public String getName() {
@@ -78,8 +86,7 @@ public class Character extends Hero {
     public void attack(Monster m) {
         int damage = attack - m.defense;
         if (damage <= 0) {
-            m.hp = m.hp;
-            System.out.println("Le monstre esquive le coup du héros.");
+            System.out.println("Le monstre " + m.getName() + " esquive le coup du héros.");
         }
         m.hp = m.hp - damage;
         System.out.println("*Le monstre subit " + damage + " point de degats.");
@@ -118,6 +125,10 @@ public class Character extends Hero {
         }
     }
 
+    public void setDefenseBase() {
+        this.defense = 30;
+    };
+
     // Create Character
     public static Character createCharactertoString() {
 
@@ -128,7 +139,7 @@ public class Character extends Hero {
         System.out.println("Entrez un prenom");
         String prenom = sc.nextLine();
 
-        Item potionDefense = new Item("Potion de défense", 1, 20);
+        Item potionDefense = new Item("Potion de défense", 3, 20);
 
         List<Item> items = new ArrayList<>();
         items.add(potionDefense);
@@ -151,26 +162,26 @@ public class Character extends Hero {
 
             if (choice == 1) {
                 classe = "Guerrier";
-                hp = 100;
-                attack = 50;
+                hp = 150;
+                attack = 70;
                 defense = 30;
-                energy = 100;
+                energy = 50;
                 skill = "Frappe mortelle";
-                descriptionSpell = "Le guerrier esquive l'attaque de l'ennemi et inflige une attaque devastatrice.";
+                descriptionSpell = "Le guerrier enpoigne son arme et inflige une attaque devastatrice.";
             } else if (choice == 2) {
                 classe = "Pretre";
-                hp = 100;
+                hp = 80;
                 attack = 35;
                 defense = 20;
-                energy = 150;
+                energy = 70;
                 skill = "Soin rapide";
-                descriptionSpell = "Le Pretre entonne de sa voix, une douce melodie qui lui permet de se revitaliser.";
+                descriptionSpell = "Le Pretre entonne de sa voix, une melodie obscure qui penetre les tympans de l'ennemi.";
             } else if (choice == 3) {
                 classe = "Mage";
                 hp = 100;
                 attack = 35;
                 defense = 10;
-                energy = 300;
+                energy = 100;
                 skill = "Sort ultime";
                 descriptionSpell = "Un enorme rocher de feu jaillit des mains du mage et explose au visage de l'ennemi.";
             } else {

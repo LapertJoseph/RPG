@@ -15,7 +15,7 @@ public class RPGGame {
 
   public RPGGame() {
     monstersEntrance = new ArrayList<>();
-    monstersEntrance.add(new Monster("Zombie", 50, 10, 30, 10, "Rale"));
+    monstersEntrance.add(new Monster("Goule", 50, 10, 30, 10, "Cri Guttural"));
 
     monstersCorridor = new ArrayList<>();
     monstersCorridor.add(new Monster("Orc", 50, 10, 50, 20, "Cri de guerre"));
@@ -25,18 +25,13 @@ public class RPGGame {
 
     monstersBoss = new ArrayList<>();
 
-    monstersBoss.add(new Monster("Raelstraz, Patriarche des dragons", 120, 20, 70, 80, "Souffle du dragon"));
-    monstersBoss.add(new Monster("Ultor, l'assemblage détraqué", 110, 20, 50, 100, "Poing Fulgurant"));
-    monstersBoss.add(new Monster("Calamitas, le sorcier fou", 70, 50, 30, 10, "Supernova"));
+    monstersBoss.add(new Monster("Raelstraz, Matriarche des dragons", 200, 20, 60, 20, "*SOUFFLE DU DRAGON*"));
 
-    rooms = new ArrayList<>(); // rajouter deux monstres dans les salles
+    rooms = new ArrayList<>();
     rooms.add(new Room("Entree", 1, monstersEntrance));
     rooms.add(new Room("Corridor", 1, monstersCorridor));
     rooms.add(new Room("Armurerie", 1, monstersArmory));
     rooms.add(new Room("Trone", 1, monstersBoss));
-
-    // list salle avec les monstre associé
-    // une salle = un monstre
 
     rooms.get(0);
     rooms.get(1);
@@ -96,6 +91,14 @@ public class RPGGame {
     System.out.println("1 - Attaquer ? ");
     System.out.println("2 - Utiliser un objet ?");
     System.out.println("3 - Fuir  ? ");
+    System.out.println("\n");
+    return number;
+  }
+
+  public static int displayInputBoss(int number) {
+    System.out.println("Que faites-vous ? ");
+    System.out.println("1 - Attaquer ? ");
+    System.out.println("2 - Utiliser un objet ?");
     System.out.println("\n");
     return number;
   }
@@ -247,9 +250,6 @@ public class RPGGame {
           System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
           System.out.println(
               game.monstersEntrance.get(0).getName() + " possède " + game.monstersEntrance.get(0).getHp() + "PV.");
-          System.out.println("\n");
-          System.out.println("CHOICE sortie de 1 :" + choice);
-          System.out.println("\n");
           displayInput(choice);
           choice = displayInput(sc.nextInt());
 
@@ -257,23 +257,27 @@ public class RPGGame {
 
         } else if (choice == 2) {
           choice = 0;
-          System.out.println("\n");
-          System.out.println("CHOICE  :" + choice);
-          System.out.println("\n");
           a.inventory.displayInventory();
           System.out.println("Quel objet voulez-vous utilisez ?");
           int choicePotion = 0;
-          System.out.println("\n");
-          System.out.println("CHOICEPOTION  :" + choicePotion);
-          System.out.println("\n");
           choicePotion = sc.nextInt();
           if (choicePotion == 2) {
             a.useDefPotion();
             System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
+            game.monstersEntrance.get(0).attack(a);
+            if (game.monstersEntrance.get(0).getEnergy() > 9) {
+              System.out.println(
+                  game.monstersEntrance.get(0).getName() + " lance son " + game.monstersEntrance.get(0).getSkill());
+              System.out.println("Vous subissez les effets de la capacité de " + game.monstersEntrance.get(0).getName()
+                  + " et vous perdez l'équilibre");
+              a.setDefenseBase();
+              System.out.println("Votre défense est affaiblie");
+              System.out.println("Défense de " + a.getName() + " est désormais de " + a.getDefense() + "points.");
+              game.monstersArmory.get(0).setEnergy(-9);
+            }
             displayInput(choice);
             choice = displayInput(sc.nextInt());
           }
-
         } else if (choice == 3) {
           System.out.println(
               "Vous choisissez de fuir le combat, vous subissez un coup de " + game.monstersEntrance.get(0).getName()
@@ -281,17 +285,13 @@ public class RPGGame {
           a.setHp(a.getHp() - 40);
           System.out.println("Il vous reste " + a.getHp() + " PV.");
           escape = true;
-          System.out.println("\n");
-          System.out.println("CHOICE sortie de 3 :" + choice);
-          System.out.println("\n");
-
-        } // Crochet de la fuite choice == 3
+        } // Crochet de la fuite
       } // Crochet du while
     } while (choice != 3 && game.gameOver != true && game.monstersEntrance.get(0).getHp() > 0);
 
     System.out.println("-----------------------------------------------------------------------------------------");
     System.out.println(
-        "Une petite lumière gravite autour de vous et soudain elle vous traverse, vous regagnez 30 points de vie. BLA BLA BLA");
+        "Une petite lumière gravite autour de vous et soudain elle vous traverse, vous regagnez 30 points de vie.");
     choice = 0; // choice verifié bien égale à 0
     // verif isAlive
     if (a.getHp() <= 100) {
@@ -309,6 +309,7 @@ public class RPGGame {
       Item itemToAdd = game.items.get(0);
       a.addItemDefenseToInventory(itemToAdd, a.inventory.getItems());
       a.inventory.displayInventory();
+      a.setDefenseBase();
       System.out.println("\n");
       // FIN SALLE 1
       // --------------------------------------------------------------------------------------------------------------------------------
@@ -401,10 +402,10 @@ public class RPGGame {
           break;
       }
     }
-    // TODO : Salle 2 (Done) Corridor
+    // Salle 2 Corridor
 
     System.out.println("Vous relevez la tête et vous apercevez un " + game.monstersCorridor.get(0).getName()
-        + " qui vous barre la sortie du corridor. BLE BLE BLE");
+        + " qui vous barre la sortie du corridor.");
     choice = 0;
     // DEBUT COMBAT
     do {
@@ -445,16 +446,18 @@ public class RPGGame {
           choice = displayInput(sc.nextInt());
           // sc.nextInt();
         } else if (choice == 2) {
+          choice = 0;
           a.inventory.displayInventory();
           System.out.println("Quel objet voulez-vous utilisez ?");
-          choice = sc.nextInt();
-          a.useDefPotion();
-          System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
-          System.out.println(
-              game.monstersCorridor.get(0).getName() + " possède " + game.monstersCorridor.get(0).getHp() + "PV.");
-          displayInput(choice);
-          choice = displayInput(sc.nextInt());
-          // sc.nextInt();
+          int choicePotion = 0;
+          choicePotion = sc.nextInt();
+          if (choicePotion == 2) {
+            a.useDefPotion();
+            System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
+            game.monstersCorridor.get(0).attack(a);
+            displayInput(choice);
+            choice = displayInput(sc.nextInt());
+          }
         } else if (choice == 3) {
           System.out.println(
               "Vous choisissez de fuir le combat, vous subissez un coup de " + game.monstersCorridor.get(0).getName()
@@ -483,12 +486,13 @@ public class RPGGame {
         System.out.println("-----------------------------------------------------------------------------------------");
       }
     }
-    System.out.println("Vous cherchez la lumière rouge et vous apercevez un coffre");
-    Item newItemToAdd = game.items
-        .get(1);
+    System.out.println("Vous cherchez la lumière rouge et vous apercevez un coffre.");
+    System.out.println("En l'ouvrant, vous vous approprié une " + game.items.get(1));
+    Item newItemToAdd = game.items.get(1);
     a.addItemDefenseToInventory(newItemToAdd, a.inventory.getItems());
     a.inventory.displayInventory();
-
+    a.setDefenseBase();
+    System.out.println("--------------------------------------------------------------------");
     System.out.println("Vous êtes à mi-parcours ! Courage.");
     System.out.println("\n");
     System.out.println("Que faites vous ?");
@@ -508,16 +512,21 @@ public class RPGGame {
     } else if (choice == 2) {
       System.out.println("Vous semblez avoir fait le tour du Corridor");
     } else if (choice == 3) {
+      choice = 0;
       a.inventory.displayInventory();
       System.out.println("Quel objet voulez-vous utilisez ?");
-      System.out.println("\n");
-      choice = sc.nextInt();
-      a.useDefPotion();
-      System.out.println("Vous avez " + a.getHp() + " PV.");
+      int choicePotion = 0;
+      choicePotion = sc.nextInt();
+      if (choicePotion == 2) {
+        a.useDefPotion();
+        System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
+        displayInput(choice);
+        choice = displayInput(sc.nextInt());
+      }
     } else {
-      System.out.println("???? : ????");
-      int randomNumber = rand.nextInt(2);
+      int randomNumber = rand.nextInt(1);
       if (randomNumber < 1) { // Bonus
+        System.out.println("Vous regagnez 30 PV.");
         if (a.getHp() <= 100) {
           int newHP = a.getHp() + 30;
           if (newHP > 100) {
@@ -528,7 +537,10 @@ public class RPGGame {
           System.out.println("Vous avez " + a.getHp() + "PV.");
         } else { // Malus
           System.out.println("??? : ???");
+          System.out.println("Le sort s'acharne sur vous ...");
+          System.out.println("Vous recevez un morceau de la roche sur vous, vous perdez 30 PV.");
           int newHP = a.getHp() - 30;
+          System.out.println("Il vous reste " + a.getHp() + "PV.");
           if (newHP <= 0) {
             a.setHp(0);
             game.gameOver = true;
@@ -556,7 +568,6 @@ public class RPGGame {
     // -----------------------------------------------------------------------------------------------------------------------------------
     // DEBUT SALLE 3
 
-    // TODO : Salle 3 Armurerie
     System.out.println("Vous penetrez dans l'armurerie et tout de suite, vous etes surpris de voir "
         + game.monstersArmory.get(0).getName() + " endormi, la main sur le coffre.");
 
@@ -571,7 +582,7 @@ public class RPGGame {
         System.out.println("monster HP : " + game.monstersArmory.get(0).getHp());
         System.out.println("player HP : " + a.getHp());
         choice = sc.nextInt();
-
+        // COMBAT ARMORY
         boolean escape = false;
         while (a.getHp() > 0 && game.monstersArmory.get(0).getHp() > 0 && !escape) {
           if (choice == 1) {
@@ -607,16 +618,28 @@ public class RPGGame {
             choice = displayInput(sc.nextInt());
             // sc.nextInt();
           } else if (choice == 2) {
+            choice = 0;
             a.inventory.displayInventory();
             System.out.println("Quel objet voulez-vous utilisez ?");
-            choice = sc.nextInt();
-            a.useDefPotion();
-            System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
-            System.out.println(
-                game.monstersArmory.get(0).getName() + " possède " + game.monstersArmory.get(0).getHp() + "PV.");
-            displayInput(choice);
-            choice = displayInput(sc.nextInt());
-            // sc.nextInt();
+            int choicePotion = 0;
+            choicePotion = sc.nextInt();
+            if (choicePotion == 2) {
+              a.useDefPotion();
+              System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
+              game.monstersArmory.get(0).attack(a);
+              if (game.monstersArmory.get(0).getEnergy() > 9) {
+                System.out.println(
+                    game.monstersArmory.get(0).getName() + " lance son " + game.monstersArmory.get(0).getSkill());
+                System.out.println("Vous subissez les effets de la capacité de " + game.monstersArmory.get(0).getName()
+                    + " et vous perdez l'équilibre");
+                a.setDefenseBase();
+                System.out.println("Votre défense est affaiblie");
+                System.out.println("Défense de " + a.getName() + " est désormais de " + a.getDefense() + "points.");
+                game.monstersArmory.get(0).setEnergy(-12);
+              }
+              displayInput(choice);
+              choice = displayInput(sc.nextInt());
+            }
           } else if (choice == 3) {
             System.out.println(
                 "Vous choisissez de fuir le combat, vous subissez un coup de " + game.monstersArmory.get(0).getName()
@@ -628,8 +651,13 @@ public class RPGGame {
           }
         }
       } while (choice != 3 && game.gameOver != true && game.monstersArmory.get(0).getHp() > 0);
-    } else {
-      // coder la fonction pour le choice 2
+    } else if (choice == 2) {
+      System.out
+          .println(
+              "Vous commencez à vous avancer la main sur le coffre, lorsque les ronflments du monstre se coupent.");
+      System.out.println("Vous vous tournez vers lui et vous lui assénez un coup fatal");
+      game.monstersArmory.get(0).setHpToZero(game.monstersArmory.get(0).hp);
+      System.out.println("Félicitation, vous avez vaincu " + game.monstersArmory.get(0).getName() + "!");
     }
     if (a.getHp() == 0) { // GAME OVER
       return;
@@ -646,26 +674,146 @@ public class RPGGame {
         }
         System.out.println("Il vous reste " + a.getHp() + "PV.");
         System.out.println("-----------------------------------------------------------------------------------------");
+        a.setDefenseBase();
       }
     }
     // FIN SALLE 3
     // -----------------------------------------------------------------------------------------------------------------------------------
-    // DEBUT SALLE Boss
+    // DEBUT SALLE BOSS
+    System.out.println("Vous sentez que vous êtes à bout de force et que la prochaine rencontre sera décisive.");
+    System.out
+        .println("Le sol est jonché de guerriers et de monstres morts au combat... Mais que s'est-il passé ici ?!");
+    System.out.println("L'air est saturé par une odeur étrange");
+    System.out
+        .println("Vous remarqué un trone posé au bout de la salle ou repose un Coffre entouré d'une montagne d'or");
+    choice = 0;
+    System.out.println("Que faite-vous ? ");
+    System.out.println("1 - Vous regardez autour de vous ? ");
+    choice = sc.nextInt();
+
+    if (choice == 1) {
+      System.out.println("Vous remarquez que les murs sont cabossés et que le sol est noirci");
+      System.out.println(
+          "Lorsque vous vous appréter à vous avancer vers le coffre vous entendez un bruit sourd derrière vous...");
+      System.out.println("Vous vous retournez et vous voyez " + game.monstersBoss.get(0).getName());
+      System.out.println("Vous remarquez qu'elle possède une gueule béante avec des crocs empoisonnées.");
+      System.out.println("Vous entrez en combat");
+      System.out.println("\n");
+    } else {
+      while (choice != 1) {
+        System.out.println("Veuillez choisir une action valide");
+        choice = displayInput(sc.nextInt());
+      }
+    }
+
+    // COMBAT BOSS
+
+    System.out.println("-------------------------------------------------------------");
+    System.out.println("Début du combat final - Il n'y a plus d'échappatoire possible");
+    System.out.println("-------------------------------------------------------------");
+    choice = 0;
+    do {
+      RPGGame.displayInputBoss(choice);
+      choice = sc.nextInt();
+      if (choice == 1) {
+        while (a.getHp() > 0 && game.monstersBoss.get(0).getHp() > 0) {
+          if (choice == 1) {
+            System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
+            System.out.println(
+                game.monstersBoss.get(0).getName() + " possède " + game.monstersBoss.get(0).getHp() + "PV.");
+            System.out.println("\n");
+
+            // Player attack
+            if (a.getEnergy() > 30) {
+              System.out.println(Character.getDescriptionSpell());
+              System.out.println(game.monstersBoss.get(0).getName() + " perd 80 points de vie."); // attaque spéciale
+              a.setEnergy(a.getEnergy() - 40); // set energie de player à -40
+              game.monstersBoss.get(0).setHp(game.monstersBoss.get(0).getHp() - 80); // retire 80 PV
+            } else {
+              a.attack(game.monstersBoss.get(0)); // attaque normale
+            }
+            if (game.monstersBoss.get(0).getHp() <= 0) {
+              game.monstersBoss.get(0).setHpToZero(game.monstersBoss.get(0).hp);
+              System.out.println("--------------------------------------------------------------------------");
+              System.out.println("Félicitation, vous avez vaincu " + game.monstersBoss.get(0).getName() + "!");
+              System.out.println("--------------------------------------------------------------------------");
+              break;
+            } else {
+              System.out.println("il reste " + game.monstersBoss.get(0).getHp() + " PV au monstre.");
+            }
+
+            // Monster attack
+            if (game.monstersBoss.get(0).getHp() <= 30) {
+              System.out.println(game.monstersBoss.get(0).getSkill());
+              System.out.println("Le dragon vous projette une boule de feu");
+              game.monstersBoss.get(0).setEnergy(game.monstersBoss.get(0).getEnergy() - 15);
+              a.setHp(a.getHp() - 50);
+              if (a.getHp() <= 0) {
+                a.setHpToZero(a.hp);
+                System.out.println("Vous avez été vaincu par " + game.monstersBoss.get(0).getName() + "!");
+                game.setGameOver(true);
+                return;
+              }
+            } else {
+              game.monstersBoss.get(0).attack(a);
+              if (a.getHp() <= 0) {
+                a.setHpToZero(a.hp);
+                System.out.println("Vous avez été vaincu par " + game.monstersBoss.get(0).getName() + "!");
+                game.setGameOver(true);
+                return;
+              } else {
+                System.out.println("il vous reste " + a.getHp() + " PV.");
+                System.out.println("\n");
+              }
+              System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
+              System.out.println(
+                  game.monstersBoss.get(0).getName() + " possède " + game.monstersBoss.get(0).getHp() + "PV.");
+              System.out.println("\n");
+              displayInputBoss(choice);
+              choice = displayInputBoss(sc.nextInt());
+            }
+          }
+        }
+        // Prise de potion
+      } else if (choice == 2) {
+        a.inventory.displayInventory();
+        System.out.println("Quel objet voulez-vous utilisez ?");
+        int choicePotion = 0;
+        choicePotion = sc.nextInt();
+        if (choicePotion == 2) {
+          a.useDefPotion();
+          System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
+          displayInputBoss(choice);
+          choice = displayInputBoss(sc.nextInt());
+        }
+      } else {
+        while (choice != 1 && choice != 2) {
+          System.out.println("Veuillez entrer un chiffre valide");
+          sc.nextInt();
+        }
+      }
+    } while (game.gameOver != true && game.monstersBoss.get(0).getHp() > 0);
+
+    System.out.println("------------------------------------------------------------");
+    System.out.println("Oyez, Oyez, " + a.getName() + " est déclaré héros du donjon.");
+    System.out.println("Vous devenez une légende d'Eternal Kingdom");
+    System.out.println("------------------------------------------------------------");
+
+    // TODO : implement restart game
+
+    System.out.println("1 - Rejouez ? ");
+    System.out.println("2 - Quitter");
+    choice = sc.nextInt();
+    do {
+      if (choice == 1) {
+        System.out.println("Vous décidez de rejouer, quel courage!");
+        Character.createCharactertoString();
+      } else if (choice == 2) {
+        System.out.println("Merci d'avoir jouer et à bientôt");
+        return;
+      }
+    } while (choice != 1 && choice != 2);
     sc.close();
     return;
   }
 }
-
-// TODO : implement restart game
-// System.out.println("1 - Rejouez ? ");
-// System.out.println("2 - Quitter");
-// choice = sc.nextInt();
-// do {
-// if (choice == 1) {
-// System.out.println("Vous décidez de rejouer, quel courage!");
-// break;
-// } else if (choice == 2) {
-// System.out.println("Merci d'avoir jouer et à bientôt");
-// return;
-// }
-// } while (choice != 1 && choice != 2);
