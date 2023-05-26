@@ -799,21 +799,21 @@ public class RPGGame {
     System.out.println("Vous devenez une légende d'Eternal Kingdom");
     System.out.println("------------------------------------------------------------");
 
+    // TODO : implement restart game
+
+    System.out.println("1 - Rejouez ? ");
+    System.out.println("2 - Quitter");
+    choice = sc.nextInt();
+    do {
+      if (choice == 1) {
+        System.out.println("Vous décidez de rejouer, quel courage!");
+        Character.createCharactertoString();
+      } else if (choice == 2) {
+        System.out.println("Merci d'avoir jouer et à bientôt");
+        return;
+      }
+    } while (choice != 1 && choice != 2);
     sc.close();
     return;
   }
 }
-
-// TODO : implement restart game
-// System.out.println("1 - Rejouez ? ");
-// System.out.println("2 - Quitter");
-// choice = sc.nextInt();
-// do {
-// if (choice == 1) {
-// System.out.println("Vous décidez de rejouer, quel courage!");
-// break;
-// } else if (choice == 2) {
-// System.out.println("Merci d'avoir jouer et à bientôt");
-// return;
-// }
-// } while (choice != 1 && choice != 2);
