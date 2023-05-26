@@ -62,6 +62,10 @@ public class Character extends Hero {
         return energy;
     }
 
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
     public String getName() {
         return nom;
     }
@@ -82,8 +86,7 @@ public class Character extends Hero {
     public void attack(Monster m) {
         int damage = attack - m.defense;
         if (damage <= 0) {
-            m.hp = m.hp;
-            System.out.println("Le " + m + "esquive le coup du héros.");
+            System.out.println("Le monstre " + m.getName() + " esquive le coup du héros.");
         }
         m.hp = m.hp - damage;
         System.out.println("*Le monstre subit " + damage + " point de degats.");
@@ -164,7 +167,7 @@ public class Character extends Hero {
                 defense = 30;
                 energy = 50;
                 skill = "Frappe mortelle";
-                descriptionSpell = "Le guerrier esquive l'attaque de l'ennemi et inflige une attaque devastatrice.";
+                descriptionSpell = "Le guerrier enpoigne son arme et inflige une attaque devastatrice.";
             } else if (choice == 2) {
                 classe = "Pretre";
                 hp = 100;

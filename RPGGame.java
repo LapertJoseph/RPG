@@ -25,7 +25,7 @@ public class RPGGame {
 
     monstersBoss = new ArrayList<>();
 
-    monstersBoss.add(new Monster("Raelstraz, Matriarche des dragons", 120, 20, 70, 80, "Souffle du dragon"));
+    monstersBoss.add(new Monster("Raelstraz, Matriarche des dragons", 200, 20, 60, 40, "Souffle du dragon"));
 
     rooms = new ArrayList<>();
     rooms.add(new Room("Entree", 1, monstersEntrance));
@@ -712,19 +712,26 @@ public class RPGGame {
     System.out.println("Début du combat final - Il n'y a plus d'échappatoire possible");
     System.out.println("-------------------------------------------------------------");
     choice = 0;
-    RPGGame.displayInputBoss(choice);
-    choice = sc.nextInt();
     do {
+      RPGGame.displayInputBoss(choice);
+      choice = sc.nextInt();
       if (choice == 1) {
-        boolean escape = false;
-        while (a.getHp() > 0 && game.monstersBoss.get(0).getHp() > 0 && !escape) {
+        while (a.getHp() > 0 && game.monstersBoss.get(0).getHp() > 0) {
           if (choice == 1) {
             System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
             System.out.println(
                 game.monstersBoss.get(0).getName() + " possède " + game.monstersBoss.get(0).getHp() + "PV.");
             System.out.println("\n");
+
             // Player attack
-            a.attack(game.monstersBoss.get(0));
+            if (a.getEnergy() > 30) {
+              System.out.println(Character.getDescriptionSpell());
+              System.out.println(game.monstersBoss.get(0).getName() + " perd 80 points de vie."); // attaque spéciale
+              a.setEnergy(a.getEnergy() - 30); // set energie de player à -30
+              game.monstersBoss.get(0).setHp(game.monstersBoss.get(0).getHp() - 80); // retire 80 PV
+            } else {
+              a.attack(game.monstersBoss.get(0)); // attaque normale
+            }
             if (game.monstersBoss.get(0).getHp() <= 0) {
               game.monstersBoss.get(0).setHpToZero(game.monstersBoss.get(0).hp);
               System.out.println("Félicitation, vous avez vaincu " + game.monstersBoss.get(0).getName() + "!");
@@ -732,13 +739,14 @@ public class RPGGame {
             } else {
               System.out.println("il reste " + game.monstersBoss.get(0).getHp() + " PV au monstre.");
             }
+
             // Monster attack
             game.monstersBoss.get(0).attack(a);
             if (a.getHp() <= 0) {
               a.setHpToZero(a.hp);
               System.out.println("Vous avez été vaincu par " + game.monstersBoss.get(0).getName() + "!");
               game.setGameOver(true);
-              break;
+              return;
             } else {
               System.out.println("il vous reste " + a.getHp() + " PV.");
               System.out.println("\n");
@@ -751,8 +759,8 @@ public class RPGGame {
             choice = displayInputBoss(sc.nextInt());
           }
         }
-      } else {
-        choice = 0;
+        // Prise de potion
+      } else if (choice == 2) {
         a.inventory.displayInventory();
         System.out.println("Quel objet voulez-vous utilisez ?");
         int choicePotion = 0;
@@ -760,22 +768,19 @@ public class RPGGame {
         if (choicePotion == 2) {
           a.useDefPotion();
           System.out.println(a.getName() + " possède désormais " + a.getDefense() + " de défense.");
-          game.monstersArmory.get(0).attack(a);
-          if (game.monstersArmory.get(0).getEnergy() > 9) {
-            System.out.println(
-                game.monstersArmory.get(0).getName() + " lance son " + game.monstersArmory.get(0).getSkill());
-            System.out.println("Vous subissez les effets de la capacité de " + game.monstersArmory.get(0).getName()
-                + " et vous perdez l'équilibre");
-            a.setDefenseBase();
-            System.out.println("Votre défense est affaiblie");
-            System.out.println("Défense de " + a.getName() + " est désormais de " + a.getDefense() + "points.");
-            game.monstersArmory.get(0).setEnergy(-12);
-          }
-          displayInput(choice);
-          choice = displayInput(sc.nextInt());
+          displayInputBoss(choice);
+          choice = displayInputBoss(sc.nextInt());
+        }
+      } else {
+        while (choice != 1 && choice != 2) {
+          System.out.println("Veuillez entrer un chiffre valide");
+          sc.nextInt();
         }
       }
     } while (game.gameOver != true && game.monstersBoss.get(0).getHp() > 0);
+
+    System.out.println("Félicitation, vous êtes arrivé au bout du donjon.");
+    System.out.println("Vous devenez une légende d' Eternal Kingdom");
 
     sc.close();
     return;
