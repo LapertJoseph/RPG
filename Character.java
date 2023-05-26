@@ -162,20 +162,20 @@ public class Character extends Hero {
 
             if (choice == 1) {
                 classe = "Guerrier";
-                hp = 100;
-                attack = 50;
+                hp = 150;
+                attack = 70;
                 defense = 30;
                 energy = 50;
                 skill = "Frappe mortelle";
                 descriptionSpell = "Le guerrier enpoigne son arme et inflige une attaque devastatrice.";
             } else if (choice == 2) {
                 classe = "Pretre";
-                hp = 100;
+                hp = 80;
                 attack = 35;
                 defense = 20;
                 energy = 70;
                 skill = "Soin rapide";
-                descriptionSpell = "Le Pretre entonne de sa voix, une douce melodie qui lui permet de se revitaliser.";
+                descriptionSpell = "Le Pretre entonne de sa voix, une melodie obscure qui penetre les tympans de l'ennemi.";
             } else if (choice == 3) {
                 classe = "Mage";
                 hp = 100;

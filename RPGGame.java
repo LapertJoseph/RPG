@@ -25,7 +25,7 @@ public class RPGGame {
 
     monstersBoss = new ArrayList<>();
 
-    monstersBoss.add(new Monster("Raelstraz, Matriarche des dragons", 200, 20, 60, 40, "Souffle du dragon"));
+    monstersBoss.add(new Monster("Raelstraz, Matriarche des dragons", 200, 20, 60, 20, "*SOUFFLE DU DRAGON*"));
 
     rooms = new ArrayList<>();
     rooms.add(new Room("Entree", 1, monstersEntrance));
@@ -727,36 +727,51 @@ public class RPGGame {
             if (a.getEnergy() > 30) {
               System.out.println(Character.getDescriptionSpell());
               System.out.println(game.monstersBoss.get(0).getName() + " perd 80 points de vie."); // attaque spéciale
-              a.setEnergy(a.getEnergy() - 30); // set energie de player à -30
+              a.setEnergy(a.getEnergy() - 40); // set energie de player à -40
               game.monstersBoss.get(0).setHp(game.monstersBoss.get(0).getHp() - 80); // retire 80 PV
             } else {
               a.attack(game.monstersBoss.get(0)); // attaque normale
             }
             if (game.monstersBoss.get(0).getHp() <= 0) {
               game.monstersBoss.get(0).setHpToZero(game.monstersBoss.get(0).hp);
+              System.out.println("--------------------------------------------------------------------------");
               System.out.println("Félicitation, vous avez vaincu " + game.monstersBoss.get(0).getName() + "!");
+              System.out.println("--------------------------------------------------------------------------");
               break;
             } else {
               System.out.println("il reste " + game.monstersBoss.get(0).getHp() + " PV au monstre.");
             }
 
             // Monster attack
-            game.monstersBoss.get(0).attack(a);
-            if (a.getHp() <= 0) {
-              a.setHpToZero(a.hp);
-              System.out.println("Vous avez été vaincu par " + game.monstersBoss.get(0).getName() + "!");
-              game.setGameOver(true);
-              return;
+            if (game.monstersBoss.get(0).getHp() <= 30) {
+              System.out.println(game.monstersBoss.get(0).getSkill());
+              System.out.println("Le dragon vous projette une boule de feu");
+              game.monstersBoss.get(0).setEnergy(game.monstersBoss.get(0).getEnergy() - 15);
+              a.setHp(a.getHp() - 50);
+              if (a.getHp() <= 0) {
+                a.setHpToZero(a.hp);
+                System.out.println("Vous avez été vaincu par " + game.monstersBoss.get(0).getName() + "!");
+                game.setGameOver(true);
+                return;
+              }
             } else {
-              System.out.println("il vous reste " + a.getHp() + " PV.");
+              game.monstersBoss.get(0).attack(a);
+              if (a.getHp() <= 0) {
+                a.setHpToZero(a.hp);
+                System.out.println("Vous avez été vaincu par " + game.monstersBoss.get(0).getName() + "!");
+                game.setGameOver(true);
+                return;
+              } else {
+                System.out.println("il vous reste " + a.getHp() + " PV.");
+                System.out.println("\n");
+              }
+              System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
+              System.out.println(
+                  game.monstersBoss.get(0).getName() + " possède " + game.monstersBoss.get(0).getHp() + "PV.");
               System.out.println("\n");
+              displayInputBoss(choice);
+              choice = displayInputBoss(sc.nextInt());
             }
-            System.out.println(a.getName() + " possède " + a.getHp() + "PV.");
-            System.out.println(
-                game.monstersBoss.get(0).getName() + " possède " + game.monstersBoss.get(0).getHp() + "PV.");
-            System.out.println("\n");
-            displayInputBoss(choice);
-            choice = displayInputBoss(sc.nextInt());
           }
         }
         // Prise de potion
@@ -779,8 +794,10 @@ public class RPGGame {
       }
     } while (game.gameOver != true && game.monstersBoss.get(0).getHp() > 0);
 
-    System.out.println("Félicitation, vous êtes arrivé au bout du donjon.");
-    System.out.println("Vous devenez une légende d' Eternal Kingdom");
+    System.out.println("------------------------------------------------------------");
+    System.out.println("Oyez, Oyez, " + a.getName() + " est déclaré héros du donjon.");
+    System.out.println("Vous devenez une légende d'Eternal Kingdom");
+    System.out.println("------------------------------------------------------------");
 
     sc.close();
     return;
